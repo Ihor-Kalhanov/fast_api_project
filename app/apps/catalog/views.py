@@ -9,14 +9,13 @@ catalog_router = APIRouter()
 
 @catalog_router.get("/catalog/", response_model=schemas.Catalogs)
 async def list_catalog() -> schemas.Catalogs:
-    objects = await models.Catalog.all()
-
+    objects = await models.Catalog.all(prefetch=('cars', ))
     return schemas.Catalogs.parse_obj({'catalogs': objects})
 
 
 @catalog_router.get("/catalog/{catalog_id}/", response_model=schemas.Catalog)
 async def get_catalog(catalog_id: int) -> schemas.Catalog:
-    instance = await models.Catalog.get_by_id(catalog_id)
+    instance = await models.Deck.get_by_id(catalog_id, prefetch=("cars",))
     if not instance:
         raise HTTPException(status_code=404, detail='Catalog is not fount')
     return schemas.Catalog.from_orm(instance)

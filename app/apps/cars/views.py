@@ -26,7 +26,7 @@ async def get_car(card_id: int) -> schemas.Car:
 
 
 @car_router.post("/catalog/{catalog_id}/cars/", response_model=schemas.Cars)
-async def create_card(catalog_id: int, data: List[schemas.CarCreate]) -> schemas.Cars:
+async def create_car(catalog_id: int, data: List[schemas.CarCreate]) -> schemas.Cars:
     async with transaction():
         objects = await models.Car.bulk_create(
             [models.Car(**card.dict(), catalog_id=catalog_id) for card in data],
@@ -35,7 +35,7 @@ async def create_card(catalog_id: int, data: List[schemas.CarCreate]) -> schemas
 
 
 @car_router.put("/catalog/{catalog_id}/cars/", response_model=schemas.Cars)
-async def update_cards(catalog_id: int, data: List[schemas.Car]) -> schemas.Cars:
+async def update_car(catalog_id: int, data: List[schemas.Car]) -> schemas.Cars:
     async with transaction():
         objects = await models.Car.bulk_update(
             [models.Car(**card.dict(exclude={"catalog_id"}), deck_id=catalog_id) for card in data],

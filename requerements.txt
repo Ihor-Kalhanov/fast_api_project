@@ -39,3 +39,4 @@ uvicorn==0.15.0
 yarl==1.6.3
 alembic
 python-dotenv
+requests

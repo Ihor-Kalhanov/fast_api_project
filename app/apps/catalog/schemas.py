@@ -3,7 +3,7 @@ from typing import Optional, List
 from pydantic import PositiveInt
 
 from apps import Base
-from apps.cars.schemas import Car
+from apps.cars.schemas import Car, CarBase
 
 
 class CatalogBase(Base):
@@ -20,4 +20,4 @@ class Catalog(CatalogBase):
 
 
 class Catalogs(Base):
-    catalogs: List[Catalog]
+    catalogs: Optional[List[Catalog]]
