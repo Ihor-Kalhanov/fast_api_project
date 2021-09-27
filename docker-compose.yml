@@ -1,15 +1,29 @@
 version: "3.9"
 services:
-    db:
-        restart: always
-        image: postgres:9.6
-        environment:
-            - POSTGRES_DB=fastapi
-            - POSTGRES_USER=root
-            - POSTGRES_PASSWORD=password
+  db:
+    restart: always
+    image: postgres:9.6
+    environment:
+      - POSTGRES_DB=fastapi
+      - POSTGRES_USER=root
+      - POSTGRES_PASSWORD=password
 
-        volumes:
-            - "./data/postgres:/var/lib/postgresql/data"
-        ports:
-            - 5432:5432
+    volumes:
+      - "./data/postgres:/var/lib/postgresql/data"
+    ports:
+      - 5432:5432
+
+  server:
+    build:
+      context: ./
+      dockerfile: ./Dockerfile
+    restart: always
+    volumes:
+      - .:/code
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
+
+
 

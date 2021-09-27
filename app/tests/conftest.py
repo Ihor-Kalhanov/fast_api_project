@@ -7,4 +7,4 @@ from app.main import get_app
 @pytest.fixture
 def test_app():
     client = TestClient(get_app())
-    return client
+    yield client

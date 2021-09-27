@@ -1,16 +1,19 @@
 FROM python:3.9
-
-# Set environment varibles
 ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
+ENV HOST=0.0.0.0
+ENV PORT=8000
 
-WORKDIR /code/
-
-# Install dependencies
-RUN pip install pipenv
-COPY . /code/
-RUN pipenv install --system --dev
-
+WORKDIR /code
 COPY . /code/
 
-EXPOSE 8000
+COPY requirements.txt .
+
+RUN pip install --upgrade pip \
+ && pip install -r requirements.txt
+
+
+
+COPY . .
+
+CMD uvicorn app.main:app --host ${HOST} --port ${PORT}

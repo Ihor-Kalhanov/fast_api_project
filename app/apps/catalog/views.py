@@ -1,8 +1,8 @@
 from typing import List
 
 from fastapi import APIRouter, HTTPException
-from apps.catalog import schemas
-from apps.catalog import models
+from app.apps.catalog import schemas
+from app.apps.catalog import models
 
 catalog_router = APIRouter()
 

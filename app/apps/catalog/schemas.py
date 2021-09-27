@@ -2,8 +2,8 @@ from typing import Optional, List
 
 from pydantic import PositiveInt
 
-from apps import Base
-from apps.cars.schemas import Car, CarBase
+from app.apps import Base
+from app.apps.cars.schemas import Car, CarBase
 
 
 class CatalogBase(Base):

@@ -4,9 +4,9 @@ from fastapi import Depends, FastAPI
 from app import exceptions
 from app.config import settings
 from app.db.database import set_db
-from apps.cars.views import car_router
-from apps.catalog.views import catalog_router
-from db.exceptions import DatabaseValidationError
+from app.apps.cars.views import car_router
+from app.apps.catalog.views import catalog_router
+from app.db.exceptions import DatabaseValidationError
 
 
 def get_app() -> FastAPI:

@@ -2,7 +2,7 @@ from typing import List, Optional
 
 from pydantic import PositiveInt
 
-from apps import Base
+from app.apps import Base
 
 
 class CarBase(Base):
