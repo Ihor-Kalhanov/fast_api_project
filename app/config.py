@@ -7,11 +7,11 @@ class Settings(BaseSettings):
     DEBUG: bool = True
 
     DB_DRIVER: str = "postgresql+asyncpg"
-    DB_HOST: str = "db"
+    DB_HOST: str = "localhost"
     DB_PORT: int = 5432
     DB_USER: str = "root"
     DB_PASSWORD: str = "password"
-    DB_DATABASE: str = "fastapi"
+    DB_DATABASE: str = "testdb"
 
 
     DB_POOL_SIZE: int = 5

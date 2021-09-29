@@ -8,27 +8,29 @@ from app.apps.cars.views import car_router
 from app.apps.catalog.views import catalog_router
 from app.db.exceptions import DatabaseValidationError
 
+from apps.accounts.views import user_router
+
 
 def get_app() -> FastAPI:
-    _app = FastAPI(
+    app = FastAPI(
         title=settings.SERVICE_NAME,
         debug=settings.DEBUG,
         dependencies=[Depends(set_db)],
     )
 
-    _app.include_router(car_router, prefix="/api", tags=['cars'])
-    _app.include_router(catalog_router, prefix="/api", tags=['catalog'])
+    app.include_router(car_router, prefix="/api", tags=['cars'])
+    app.include_router(catalog_router, prefix="/api", tags=['catalogs'])
+    app.include_router(user_router, prefix="/api", tags=['users'])
 
-    _app.add_exception_handler(
+    app.add_exception_handler(
         DatabaseValidationError,
         exceptions.database_validation_exception_handler,
     )
 
-    return _app
+    return app
 
 
 app = get_app()
-
 
 if __name__ == '__main__':
     uvicorn.run(
@@ -38,4 +40,3 @@ if __name__ == '__main__':
         reload=True,
         debug=True
     )
-

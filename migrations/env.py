@@ -24,6 +24,7 @@ from app.db.base import metadata
 # imports below are needed for autogeneration
 from app.apps.cars.models import Car
 from app.apps.catalog.models import Catalog
+from app.apps.accounts.models import User
 
 # async_fallback=true is used, because alembic works with sync drivers
 config.set_main_option('sqlalchemy.url', str(settings.DB_DSN)+"?async_fallback=true")

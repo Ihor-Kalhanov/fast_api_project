@@ -9,13 +9,13 @@ catalog_router = APIRouter()
 
 @catalog_router.get("/catalog/", response_model=schemas.Catalogs)
 async def list_catalog() -> schemas.Catalogs:
-    objects = await models.Catalog.all(prefetch=('cars', ))
+    objects = await models.Catalog.all(prefetch=('cars',))
     return schemas.Catalogs.parse_obj({'catalogs': objects})
 
 
 @catalog_router.get("/catalog/{catalog_id}/", response_model=schemas.Catalog)
 async def get_catalog(catalog_id: int) -> schemas.Catalog:
-    instance = await models.Deck.get_by_id(catalog_id, prefetch=("cars",))
+    instance = await models.Catalog.get_by_id(catalog_id, prefetch=("cars",))
     if not instance:
         raise HTTPException(status_code=404, detail='Catalog is not fount')
     return schemas.Catalog.from_orm(instance)
@@ -34,8 +34,6 @@ async def update_catalog(catalog_id: int, data: schemas.CatalogCreate) -> schema
 @catalog_router.post("/catalog/", response_model=schemas.Catalog)
 async def create_catalog(data: schemas.CatalogCreate) -> schemas.Catalog:
     instance = models.Catalog(**data.dict())
-    try:
-        await instance.save()
-        return schemas.Catalog.from_orm(instance)
-    except:
-        raise HTTPException(status_code=409, detail="Catalog is already exist")
+
+    await instance.save()
+    return schemas.Catalog.from_orm(instance)

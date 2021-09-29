@@ -40,3 +40,9 @@ yarl==1.6.3
 alembic
 python-dotenv
 requests
+
+
+
+
+
+sk_test_51JefdaKPKpDNZGt8OWUWbfrtketVGZuQBCdxG0erbRrYhI8qz3pBKFYFRtGk9xzt8vgZ2a95hXcMcQe1OhCKDcBW00sJlamRJ5
