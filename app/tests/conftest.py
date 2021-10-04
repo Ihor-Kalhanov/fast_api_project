@@ -11,10 +11,11 @@ from app.db.base import engine
 
 from app.main import app
 
-
 from app.db.database import session_context_var, set_db
 from app.apps.cars import schemas as car_schemas, models as car_models
 from app.apps.catalog import schemas as catalog_schemas, models as catalog_models
+from app.apps.accounts import models as user_models
+from app.apps.accounts import schemas as user_schemas
 
 
 @pytest.fixture(scope="session")
@@ -78,11 +79,27 @@ async def catalog(db_context):
     await catalog.save()
     return catalog
 
+
 @pytest.fixture
-async def car(db_context, catalog: catalog_models.Catalog):
-    instance = car_models.Car(**car_data.dict(), catalog_id=catalog.id)
+async def user(db_context):
+    user_data = user_schemas.UserCreate(
+        **
+        {
+            "username": "test username",
+            "email": "test email@mail.com",
+        }
+    )
+    user = user_models.User(**user_data.dict())
+    await user.save()
+    return user
+
+
+@pytest.fixture
+async def car(db_context, catalog: catalog_models.Catalog, user: user_models.User):
+    instance = car_models.Car(**car_data.dict(), catalog_id=catalog.id, user_id=user.id)
     await instance.save()
     return instance
+
 
 car_data = car_schemas.CarCreate(
     name="test car name",

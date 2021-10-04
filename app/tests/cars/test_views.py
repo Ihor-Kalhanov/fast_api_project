@@ -19,9 +19,9 @@ class TestViewsCar:
         response = client.get(f'/api/catalog/0/')
         assert response.status_code == status.HTTP_404_NOT_FOUND
 
-    def test_create_car(self, client: TestClient, catalog):
+    def test_create_car(self, client: TestClient, catalog, user):
         response = client.post(
-            f'/api/catalog/{catalog.id}/cars/',
+            f'/catalog/{catalog.id}/cars/{user.id}/',
             json=[car_data.dict()]
         )
 

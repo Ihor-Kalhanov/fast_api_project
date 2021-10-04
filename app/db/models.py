@@ -3,6 +3,8 @@ import re
 from typing import Any, Dict, List, NoReturn, Optional, Tuple, Type, TypeVar
 
 import sqlalchemy as sa
+from sqlalchemy import inspect
+
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.orm import selectinload
@@ -29,7 +31,6 @@ class BaseModel(Base):
     id = sa.Column(sa.Integer, primary_key=True)
     created_at = sa.Column(sa.DateTime(timezone=True), default=utcnow, nullable=False)
     updated_at = sa.Column(sa.DateTime(timezone=True), default=utcnow, onupdate=utcnow, nullable=False)
-
 
     def __str__(self):
         return f"<{type(self).__name__}({self.id=})>"
@@ -71,6 +72,15 @@ class BaseModel(Base):
         db_execute = await db.execute(query)
         instance = db_execute.scalars().first()
         return instance
+
+    @classmethod
+    async def get_dict(cls: Type[TBase], obj_id: int, ):
+        query = cls._get_query().where(cls.id == obj_id)
+        db = get_db()
+        db_execute = await db.execute(query)
+        instance = db_execute.scalars().first()
+        return {c.key: getattr(instance, c.key)
+                for c in inspect(instance).mapper.column_attrs}
 
     @classmethod
     async def filter(

@@ -3,7 +3,7 @@ from typing import List, Optional
 from pydantic import PositiveInt
 
 from app.apps import Base
-from apps.cars.schemas import Car
+from app.apps.cars.schemas import Car
 
 
 class UserBase(Base):

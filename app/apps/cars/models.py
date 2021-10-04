@@ -1,5 +1,4 @@
 import sqlalchemy
-from sqlalchemy import UniqueConstraint
 
 from app.db.models import BaseModel
 
@@ -10,7 +9,6 @@ class Car(BaseModel):
 
     name = sqlalchemy.Column(sqlalchemy.String, nullable=False)
     description = sqlalchemy.Column(sqlalchemy.String, nullable=True)
-    amount = sqlalchemy.Column(sqlalchemy.Integer, default=0,)
+    amount = sqlalchemy.Column(sqlalchemy.Integer, default=0, )
     catalog_id = sqlalchemy.Column(sqlalchemy.Integer, sqlalchemy.ForeignKey("catalog.id"))
     user_id = sqlalchemy.Column(sqlalchemy.Integer, sqlalchemy.ForeignKey("users.id"))
-

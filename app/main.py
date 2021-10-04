@@ -8,7 +8,8 @@ from app.apps.cars.views import car_router
 from app.apps.catalog.views import catalog_router
 from app.db.exceptions import DatabaseValidationError
 
-from apps.accounts.views import user_router
+from app.apps.accounts.views import user_router
+from app.apps.weather.views import weather_router
 
 
 def get_app() -> FastAPI:
@@ -21,6 +22,7 @@ def get_app() -> FastAPI:
     app.include_router(car_router, prefix="/api", tags=['cars'])
     app.include_router(catalog_router, prefix="/api", tags=['catalogs'])
     app.include_router(user_router, prefix="/api", tags=['users'])
+    app.include_router(weather_router, prefix="/api", tags=['weather'])
 
     app.add_exception_handler(
         DatabaseValidationError,
