@@ -19,30 +19,54 @@ services:
       dockerfile: ./Dockerfile
     command: uvicorn app.main:app --host 0.0.0.0 --port 8000
     restart: always
+    environment:
+      - CELERY_BROKER_URL=redis://redis:6379/0
+      - CELERY_RESULT_BACKEND=redis://redis:6379/0
     volumes:
       - .:/code
     ports:
       - "8000:8000"
     depends_on:
       - db
-      - redis
+      - broker
+
 
   worker:
-    build:
-      context: ./
-      dockerfile: ./Dockerfile
-    command: celery worker --app=worker.celery --loglevel=info
+    build: ./
+    command: celery -A app.worker.celery worker --loglevel=DEBUG
     volumes:
-      - ./project:/usr/src/code
+      - .:/code
     environment:
       - CELERY_BROKER_URL=redis://redis:6379/0
       - CELERY_RESULT_BACKEND=redis://redis:6379/0
     depends_on:
       - web
-      - redis
+      - broker
+
+  broker:
+    hostname: rabbit
+    image: rabbitmq:latest
+    environment:
+      - RABBITMQ_DEFAULT_USER=user
+      - RABBITMQ_DEFAULT_PASS=password
+    ports:
+      - "5566:5672"
+      #local port 5672 was in use
 
   redis:
     image: redis:6-alpine
 
-
-
+  flower:
+    build: ./
+    command: flower --app=app.worker.celery --host 0.0.0.0 --port=5555 --broker=redis://redis:6379/0
+    volumes:
+      - .:/code
+    environment:
+      - CELERY_BROKER_URL=redis://redis:6379/0
+      - CELERY_RESULT_BACKEND=redis://redis:6379/0
+    ports:
+      - 5556:5555
+    depends_on:
+      - redis
+      - web
+      - worker

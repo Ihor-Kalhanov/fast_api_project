@@ -10,6 +10,7 @@ from app.db.exceptions import DatabaseValidationError
 
 from app.apps.accounts.views import user_router
 from app.apps.weather.views import weather_router
+from app.apps.sender.views import sender_router
 
 
 def get_app() -> FastAPI:
@@ -23,6 +24,7 @@ def get_app() -> FastAPI:
     app.include_router(catalog_router, prefix="/api", tags=['catalogs'])
     app.include_router(user_router, prefix="/api", tags=['users'])
     app.include_router(weather_router, prefix="/api", tags=['weather'])
+    app.include_router(sender_router, prefix="/api", tags=['sender'])
 
     app.add_exception_handler(
         DatabaseValidationError,

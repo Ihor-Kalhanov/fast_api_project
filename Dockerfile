@@ -16,6 +16,5 @@ RUN pip install --upgrade pip \
 
 
 
-COPY . .
+COPY . /code/
 
-#CMD uvicorn app.main:app --host ${HOST} --port ${PORT}

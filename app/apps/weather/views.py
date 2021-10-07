@@ -7,7 +7,6 @@ from fastapi.responses import JSONResponse
 
 # ad2c251a297beb27f2ccec8690055287
 
-
 weather_router = APIRouter()
 
 
